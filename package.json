@@ -31,6 +31,9 @@
     "validator": "^10.11.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.0"
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.0",
+    "supertest": "^4.0.2",
+    "tape": "^4.10.1"
   }
 }
