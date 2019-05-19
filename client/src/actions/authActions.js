@@ -9,46 +9,51 @@ import {
 } from "./types";
 
 // Register User
-export const registerUser = (userData, history) => dispatch => {
-  axios
-    .post("/api/users/register", userData)
-    .then(res => history.push("/login")) // re-direct to login on successful register
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+export const registerUser = (userData, history) => {
+  return (dispatch) => {
+    axios
+      .post("/api/users/register", userData)
+      .then(res => history.push("/login")) // re-direct to login on successful register
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  }
 };
 
 // Login - get user token
-export const loginUser = userData => dispatch => {
-  axios
-    .post("/api/users/login", userData)
-    .then(res => {
-      // Save token to localStorage
-      const { token } = res.data;
-      localStorage.setItem("jwtToken", token);
+export const loginUser = (userData) => {
+  return (dispatch) => {
+    axios
+      .post("/api/users/login", userData)
+      .then(res => {
+        // Save token to localStorage
+        const { token } = res.data;
+        localStorage.setItem("jwtToken", token);
 
-      // Set token to Auth header
-      setAuthToken(token);
+        // Set token to Auth header
+        setAuthToken(token);
 
-      // Decode token to get user data
-      const decoded = jwt_decode(token);
+        // Decode token to get user data
+        const decoded = jwt_decode(token);
 
-      // Set current user
-      dispatch(setCurrentUser(decoded));
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
+        // Set current user
+        dispatch(setCurrentUser(decoded));
       })
-    );
+      .catch(err => {
+        console.log("err")        
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      });
+  }
 };
 
 // Set logged in user
-export const setCurrentUser = decoded => {
+export const setCurrentUser = (decoded) => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded
@@ -63,7 +68,7 @@ export const setUserLoading = () => {
 };
 
 // Log user out
-export const logoutUser = () => dispatch => {
+export const logoutUser = () => (dispatch) => {
   // Remove token from local storage
   localStorage.removeItem("jwtToken");
 
