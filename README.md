@@ -11,7 +11,7 @@ Technologies:
 
 ## Configuration
 
-Set the MONGO_URI from your [mLab](http://mlab.com) database in the .env file.
+Set the MONGO_URI from your [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) database in the .env file.
 
 ```javascript
 MONGO_URI = "YOUR_MONGO_URI_HERE"
